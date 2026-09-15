@@ -1,0 +1,71 @@
+<main class="container">
+    <section class="page-header">
+        <h1>Machine Learning</h1>
+        <p>Run classification, regression, anomaly detection and clustering.</p>
+         <link rel="stylesheet" href="css/style.css">
+    </section>
+
+    <section class="card">
+        <h2>Classification</h2>
+        <button class="btn btn-primary" onclick="runModel('/api/ml/classify')">
+            Run Classification
+        </button>
+    </section>
+
+    <section class="card">
+        <h2>Regression</h2>
+        <button class="btn btn-primary" onclick="runModel('/api/ml/regression')">
+            Run Regression
+        </button>
+    </section>
+
+    <section class="card">
+        <h2>Anomaly Detection</h2>
+        <button class="btn btn-primary" onclick="runModel('/api/ml/anomaly')">
+            Detect Anomalies
+        </button>
+    </section>
+
+    <section class="card">
+        <h2>Clustering</h2>
+        <button class="btn btn-primary" onclick="runModel('/api/ml/clustering')">
+            Run Clustering
+        </button>
+    </section>
+
+    <section class="card">
+        <h2>Result</h2>
+        <div id="result">
+            <div class="output">Choose a machine-learning operation.</div>
+        </div>
+    </section>
+</main>
+
+<script>
+    async function runModel(endpoint) {
+        const result = document.getElementById("result");
+        result.innerHTML = "<div class='output'>Running model...</div>";
+
+        try {
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({})
+            });
+
+            const data = await response.json();
+
+            result.innerHTML =
+                "<div class='output'><pre>" +
+                JSON.stringify(data, null, 2) +
+                "</pre></div>";
+        } catch (error) {
+            result.innerHTML =
+                "<div class='output'><span class='err'>" +
+                error.message +
+                "</span></div>";
+        }
+    }
+</script>
